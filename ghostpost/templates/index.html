@@ -3,7 +3,7 @@
         body {
             background-color: rgb(121, 160, 121);
         }
-        h1 {text-align: center;}
+        h1, h3 {text-align: center;}
         #wrap {
             width: 65%;
             margin: 0 auto;
@@ -17,54 +17,81 @@
             float: right;
             width: 30%;
         }
-        #content, #content2 {
+        #content, #content2, #content3 {
             display: none;
         }
-        #content.show, #content2.show {
+        #content.show, #content2.show, #content3.show {
             display: block;
         }
 
     </style>
 
     <h1>HOMEPAGE</h1>
+    <h3>All Sorted By Date</h3>
     <div id="wrap">
         <section id="left_col">
             <a href="http://localhost:8000/addform/">SUBMIT NEW BOASTROAST</a>
             {% for each in new_list %}
-                <div>Title: {{ each.title }}</div>    
+                <div>Title & (ID-{{each.id}}): {{ each.title }}</div>
                 <div>Boast: {{ each.boolean }}</div>
                 <div>Content: {{ each.content }}</div>
                 <div>Upvotes: {{ each.upvotes }}</div>
                 <div>Downvotes: {{ each.downvotes }}</div>
                 <div>Post_date: {{ each.post_date }}</div>
+                <a href="/up/{{each.id}}/">
+                    <button>Upvote</button>
+                </a>
+                <a href="/down/{{each.id}}">
+                    <button>Downvote</button>
+                </a>
                 <p></p>
             {% endfor %}
         </section>
 
         <section id="right_col">
-            <button id="boast">Boasts</button>
-            <button id="roast">Roasts</button>
+            <button id="boast">by Boasts</button>
+            <button id="roast">by Roasts</button>
+            <button id="votes">by Votes</button>
             <div id="content" style="background-color:rgb(223, 223, 30)">
                 ALL BOASTS
                 {% for each in boasts %}
-                    <div>Title: {{ each.title }}</div>    
+                    <div>Title & (ID-{{each.id}}): {{ each.title }}</div>
                     <div>Boast: {{ each.boolean }}</div>
                     <div>Content: {{ each.content }}</div>
                     <div>Upvotes: {{ each.upvotes }}</div>
                     <div>Downvotes: {{ each.downvotes }}</div>
                     <div>Post_date: {{ each.post_date }}</div>
+                    <a href="/up/{{each.id}}/"><button>Upvote</button></a>
+                    <a href="/down/{{each.id}}/"><button>Downvote</button></a>
                     <p></p>
                 {% endfor %}
             </div>
             <div id="content2" style="background-color:rgb(160, 139, 219)">
                 ALL ROASTS
                 {% for each in roasts %}
-                    <div>Title: {{ each.title }}</div>    
+                    <div>Title & (ID-{{each.id}}): {{ each.title }}</div>
                     <div>Boast: {{ each.boolean }}</div>
                     <div>Content: {{ each.content }}</div>
                     <div>Upvotes: {{ each.upvotes }}</div>
                     <div>Downvotes: {{ each.downvotes }}</div>
                     <div>Post_date: {{ each.post_date }}</div>
+                    <a href="/up/{{each.id}}/"><button>Upvote</button></a>
+                    <a href="/down/{{each.id}}/"><button>Downvote</button></a>
+                    <p></p>
+                {% endfor %}
+            </div>
+
+            <div id="content3" style="background-color:rgb(139, 216, 219)">
+                BY UPVOTES
+                {% for each in votes %}
+                    <div>Title & (ID-{{each.id}}): {{ each.title }}</div>
+                    <div>Boast: {{ each.boolean }}</div>
+                    <div>Content: {{ each.content }}</div>
+                    <div>Upvotes: {{ each.upvotes }}</div>
+                    <div>Downvotes: {{ each.downvotes }}</div>
+                    <div>Post_date: {{ each.post_date }}</div>
+                    <a href="/up/{{each.id}}/"><button>Upvote</button></a>
+                    <a href="/down/{{each.id}}/"><button>Downvote</button></a>
                     <p></p>
                 {% endfor %}
             </div>
@@ -86,6 +113,13 @@
 
         toggle2B.addEventListener("click", function(){
             content2.classList.toggle("show")
+        })
+
+        let toggle3B = document.getElementById("votes")
+        let content3B = document.getElementById("content3")
+
+        toggle3B.addEventListener("click", function(){
+            content3B.classList.toggle("show")
         })
 
     </script>

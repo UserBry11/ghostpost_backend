@@ -7,35 +7,36 @@ from ghostpost.forms import CreateForm
 def index(request):
     html = "index.html"
 
-    items = BoastRoast.objects.all()
-    boasts = BoastRoast.objects.filter(boolean=True)
-    roasts = BoastRoast.objects.filter(boolean=False)
+    items = BoastRoast.objects.all().order_by('-post_date')
 
-    new_list = sortitem(items)
-    boasts = sortitem(boasts)
-    roasts = sortitem(roasts)
+    votes = BoastRoast.objects.all().order_by('-upvotes')
+    boasts = items.filter(boolean=True)
+    roasts = items.filter(boolean=False)
+
+    new_list = items
 
     return render(request, html, {
         'boasts': boasts,
         'roasts': roasts,
-        'new_list': new_list
+        'new_list': new_list,
+        'votes': votes
         })
 
 
-def sortitem(args):
-    my_list, new_list = [], []
-    for each in args:
-        my_list.append({each: each.post_date})
+# def sortitem(args):
+#     my_list, new_list = [], []
+#     for each in args:
+#         my_list.append({each: each.post_date})
 
-    def myFunc(e):
-        return e.items()
+#     def myFunc(e):
+#         return e.items()
 
-    my_list.sort(key=myFunc)
+#     my_list.sort(key=myFunc)
 
-    for each in my_list:
-        for x in each:
-            new_list.append(x)
-    return new_list
+#     for each in my_list:
+#         for x in each:
+#             new_list.append(x)
+#     return new_list
 
 
 def add_form(request):
@@ -58,3 +59,19 @@ def add_form(request):
     form = CreateForm()
 
     return render(request, html, {'form': form})
+
+
+def upvote(request, id):
+    item = BoastRoast.objects.filter(id=id).first()
+    item.upvotes += 1
+    item.save()
+
+    return HttpResponseRedirect(reverse('homepage'))
+
+
+def downvote(request, id):
+    item = BoastRoast.objects.filter(id=id).first()
+    item.downvotes -= 1
+    item.save()
+
+    return HttpResponseRedirect(reverse('homepage'))

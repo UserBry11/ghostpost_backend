@@ -24,5 +24,7 @@ admin.site.register(BoastRoast)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name="homepage"),
-    path('addform/', views.add_form)
+    path('addform/', views.add_form),
+    path('up/<int:id>/', views.upvote),
+    path('down/<int:id>/', views.downvote)
 ]
