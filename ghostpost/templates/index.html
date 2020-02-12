@@ -1,0 +1,93 @@
+<html>
+    <style type="text/css">
+        body {
+            background-color: rgb(121, 160, 121);
+        }
+        h1 {text-align: center;}
+        #wrap {
+            width: 65%;
+            margin: 0 auto;
+        }
+
+        #left_col {
+            float: left;
+            width: 60%;
+        }
+        #right_col {
+            float: right;
+            width: 30%;
+        }
+        #content, #content2 {
+            display: none;
+        }
+        #content.show, #content2.show {
+            display: block;
+        }
+
+    </style>
+
+    <h1>HOMEPAGE</h1>
+    <div id="wrap">
+        <section id="left_col">
+            <a href="http://localhost:8000/addform/">SUBMIT NEW BOASTROAST</a>
+            {% for each in new_list %}
+                <div>Title: {{ each.title }}</div>    
+                <div>Boast: {{ each.boolean }}</div>
+                <div>Content: {{ each.content }}</div>
+                <div>Upvotes: {{ each.upvotes }}</div>
+                <div>Downvotes: {{ each.downvotes }}</div>
+                <div>Post_date: {{ each.post_date }}</div>
+                <p></p>
+            {% endfor %}
+        </section>
+
+        <section id="right_col">
+            <button id="boast">Boasts</button>
+            <button id="roast">Roasts</button>
+            <div id="content" style="background-color:rgb(223, 223, 30)">
+                ALL BOASTS
+                {% for each in boasts %}
+                    <div>Title: {{ each.title }}</div>    
+                    <div>Boast: {{ each.boolean }}</div>
+                    <div>Content: {{ each.content }}</div>
+                    <div>Upvotes: {{ each.upvotes }}</div>
+                    <div>Downvotes: {{ each.downvotes }}</div>
+                    <div>Post_date: {{ each.post_date }}</div>
+                    <p></p>
+                {% endfor %}
+            </div>
+            <div id="content2" style="background-color:rgb(160, 139, 219)">
+                ALL ROASTS
+                {% for each in roasts %}
+                    <div>Title: {{ each.title }}</div>    
+                    <div>Boast: {{ each.boolean }}</div>
+                    <div>Content: {{ each.content }}</div>
+                    <div>Upvotes: {{ each.upvotes }}</div>
+                    <div>Downvotes: {{ each.downvotes }}</div>
+                    <div>Post_date: {{ each.post_date }}</div>
+                    <p></p>
+                {% endfor %}
+            </div>
+
+
+        </section>
+    </div>
+
+    <script>
+        let toggleB = document.getElementById("boast");
+        let content = document.getElementById("content");
+        
+        toggleB.addEventListener("click", function(){
+            content.classList.toggle("show")
+        })
+
+        let toggle2B = document.getElementById("roast");
+        let content2 = document.getElementById("content2");
+
+        toggle2B.addEventListener("click", function(){
+            content2.classList.toggle("show")
+        })
+
+    </script>
+
+</html>
