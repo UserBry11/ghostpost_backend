@@ -14,10 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from ghostpost import views
 from ghostpost.models import BoastRoast
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'boastroast', views.BoastRoastViewSet)
 
 admin.site.register(BoastRoast)
 
@@ -26,5 +30,6 @@ urlpatterns = [
     path('', views.index, name="homepage"),
     path('addform/', views.add_form),
     path('up/<int:id>/', views.upvote),
-    path('down/<int:id>/', views.downvote)
+    path('down/<int:id>/', views.downvote),
+    path('api/', include(router.urls))
 ]

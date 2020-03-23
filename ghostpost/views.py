@@ -1,7 +1,13 @@
 from ghostpost.models import BoastRoast
 from django.shortcuts import render, reverse, HttpResponseRedirect
-
 from ghostpost.forms import CreateForm
+from ghostpost.serializers import BoastRoastSerializer
+from rest_framework import viewsets
+
+
+class BoastRoastViewSet(viewsets.ModelViewSet):
+    queryset = BoastRoast.objects.all()
+    serializer_class = BoastRoastSerializer
 
 
 def index(request):
@@ -21,22 +27,6 @@ def index(request):
         'new_list': new_list,
         'votes': votes
         })
-
-
-# def sortitem(args):
-#     my_list, new_list = [], []
-#     for each in args:
-#         my_list.append({each: each.post_date})
-
-#     def myFunc(e):
-#         return e.items()
-
-#     my_list.sort(key=myFunc)
-
-#     for each in my_list:
-#         for x in each:
-#             new_list.append(x)
-#     return new_list
 
 
 def add_form(request):
