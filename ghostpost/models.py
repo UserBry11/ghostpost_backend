@@ -10,5 +10,10 @@ class BoastRoast(models.Model):
     downvotes = models.IntegerField()
     post_date = models.DateTimeField(default=timezone.now)
 
+    @property
+    def vote_score(self):
+        total = self.upvotes - self.downvotes
+        return total
+
     def __str__(self):
         return self.title

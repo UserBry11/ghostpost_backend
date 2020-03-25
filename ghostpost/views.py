@@ -3,11 +3,27 @@ from django.shortcuts import render, reverse, HttpResponseRedirect
 from ghostpost.forms import CreateForm
 from ghostpost.serializers import BoastRoastSerializer
 from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import action
 
 
 class BoastRoastViewSet(viewsets.ModelViewSet):
-    queryset = BoastRoast.objects.all()
+    queryset = BoastRoast.objects.all().order_by('-post_date')
     serializer_class = BoastRoastSerializer
+
+# detail view we don't. Why get newest item detail view because we only have 1 there.
+# /api/boastroast/popular/
+# detail=Flase for single get object
+    @action(methods=['get'], detail=False)
+    def popular(self, request, pk=None):
+
+        def myFunc(event):
+            return event.vote_score
+
+        popular = sorted(self.get_queryset(), key=myFunc, reverse=True)
+        serializer = self.get_serializer(popular, many=True)
+
+        return Response(serializer.data)
 
 
 def index(request):
@@ -61,7 +77,7 @@ def upvote(request, id):
 
 def downvote(request, id):
     item = BoastRoast.objects.filter(id=id).first()
-    item.downvotes -= 1
+    item.downvotes += 1
     item.save()
 
     return HttpResponseRedirect(reverse('homepage'))
