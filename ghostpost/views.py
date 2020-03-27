@@ -13,7 +13,7 @@ class BoastRoastViewSet(viewsets.ModelViewSet):
 
 # detail view we don't. Why get newest item detail view because we only have 1 there.
 # /api/boastroast/popular/
-# detail=Flase for single get object
+# detail=True for single get object
     @action(methods=['get'], detail=False)
     def popular(self, request, pk=None):
 
@@ -22,6 +22,27 @@ class BoastRoastViewSet(viewsets.ModelViewSet):
 
         popular = sorted(self.get_queryset(), key=myFunc, reverse=True)
         serializer = self.get_serializer(popular, many=True)
+
+        return Response(serializer.data)
+
+    @action(methods=['get'], detail=False, url_path='upvote')
+    def upvote(self, request, pk=None):
+        id_value = request.query_params['id']
+        item = BoastRoast.objects.filter(id=id_value).first()
+        item.upvotes += 1
+        item.save()
+
+        serializer = self.get_serializer(item, many=False)
+
+        return Response(serializer.data)
+
+    @action(methods=['get'], detail=False)
+    def downvote(self, request):
+        id_value = request.query_params['id']
+        item = BoastRoast.objects.filter(id=id_value).first()
+        item.downvotes += 1
+        item.save()
+        serializer = self.get_serializer(item, many=False)
 
         return Response(serializer.data)
 
