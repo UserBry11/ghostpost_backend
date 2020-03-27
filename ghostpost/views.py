@@ -16,7 +16,6 @@ class BoastRoastViewSet(viewsets.ModelViewSet):
 # detail=True for single get object
     @action(methods=['get'], detail=False)
     def popular(self, request, pk=None):
-
         def myFunc(event):
             return event.vote_score
 
@@ -32,7 +31,8 @@ class BoastRoastViewSet(viewsets.ModelViewSet):
         item.upvotes += 1
         item.save()
 
-        serializer = self.get_serializer(item, many=False)
+        new_item = self.get_queryset()
+        serializer = self.get_serializer(new_item, many=True)
 
         return Response(serializer.data)
 
@@ -42,7 +42,9 @@ class BoastRoastViewSet(viewsets.ModelViewSet):
         item = BoastRoast.objects.filter(id=id_value).first()
         item.downvotes += 1
         item.save()
-        serializer = self.get_serializer(item, many=False)
+
+        new_item = self.get_queryset()
+        serializer = self.get_serializer(new_item, many=True)
 
         return Response(serializer.data)
 
