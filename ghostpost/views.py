@@ -48,6 +48,12 @@ class BoastRoastViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(methods=['get'], detail=False, url_path='deletion')
+    def delete(self, request):
+        # item = BoastRoast.objects.filter(magic_string=magic_string).first()
+        pass
+
+
 
 def index(request):
     html = "index.html"

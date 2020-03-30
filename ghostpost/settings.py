@@ -117,13 +117,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+# http://ghostpost-frontend.s3-website.us-east-2.amazonaws.com/
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
 CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000', 'http://ghostpost-frontend.s3-website.us-east-2.amazonaws.com']
 # Django’s CSRF protection checks the Referer header of HTTPS requests to prevent CSRF attacks between subdomains of the same domain or between HTTP and HTTPS.
-CSRF_TRUSTED_ORIGINS = ['localhost:3000']
+# CSRF_TRUSTED_ORIGINS = ['localhost:3000', 'http://ghostpost-frontend']
